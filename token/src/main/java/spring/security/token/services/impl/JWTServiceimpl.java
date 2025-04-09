@@ -7,17 +7,19 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-//import ch.qos.logback.core.subst.Token;
+import ch.qos.logback.core.subst.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import spring.security.token.services.JWTService;
 
+@SuppressWarnings("unused")
 @Service
-public class JWTServiceimpl {
+public class JWTServiceimpl implements JWTService{
     @SuppressWarnings("unused")
-    private String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails){
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())
@@ -52,5 +54,11 @@ public class JWTServiceimpl {
 
     private boolean isTokenExpired(String token){
         return extractClaim(token, Claims::getExpiration).before(new Date());
+    }
+
+    @Override
+    public boolean isTokenvalid(String token, UserDetails userDetails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isTokenvalid'");
     }
 }
